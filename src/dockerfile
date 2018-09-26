@@ -5,7 +5,7 @@ COPY . .
 RUN msbuild src\Legacy.CloudService.sln /p:OutputPath=c:\out
 
 # app image
-FROM microsoft/dotnet-framework:4.7.1-windowsservercore-10.0.14393.1884
+FROM microsoft/dotnet-framework:4.6.2-windowsservercore-10.0.14393.1884
 ADD .\setup C:\setup
 RUN C:\setup\install.cmd
 WORKDIR C:\legacy-cloudservice
