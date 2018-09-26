@@ -1,0 +1,6 @@
+FROM microsoft/windowsservercore
+ADD setup /setup
+RUN setup/install.cmd
+
+#RUN msiexec.exe /i "/MSI/VC2008 SP1 Runtime Support x64.msi" /qn
+#RUN msiexec.exe /i "/MSI/mycomponent.msi" /qn INSTALLDIR="C:\Program Files (x86)\MyComponent\" ARG1 ARG2 ARG3
