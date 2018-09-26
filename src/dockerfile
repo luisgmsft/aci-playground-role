@@ -1,6 +1,13 @@
-FROM microsoft/windowsservercore
-ADD setup /setup
-RUN setup/install.cmd
+# escape=`
+FROM microsoft/dotnet-framework-build:4.7.1-windowsservercore-ltsc2016 AS builder
+WORKDIR C:\src\Legacy.CloudService
+COPY . .
+RUN msbuild src\Legacy.CloudService.sln /p:OutputPath=c:\out
 
-#RUN msiexec.exe /i "/MSI/VC2008 SP1 Runtime Support x64.msi" /qn
-#RUN msiexec.exe /i "/MSI/mycomponent.msi" /qn INSTALLDIR="C:\Program Files (x86)\MyComponent\" ARG1 ARG2 ARG3
+# app image
+FROM microsoft/dotnet-framework:4.7.1-windowsservercore-10.0.14393.1884
+ADD .\setup C:\setup
+RUN C:\setup\install.cmd
+WORKDIR C:\legacy-cloudservice
+COPY --from=builder C:\out .
+CMD Console.Worker.Role.exe
