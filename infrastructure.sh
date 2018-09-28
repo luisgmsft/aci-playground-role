@@ -26,7 +26,7 @@ az acr task create \
     --context https://github.com/luisgmsft/aci-playground-role.git \
     --branch master \
     --file src/dockerfile \
-    --git-access-token "ac0f6b897102890f96ecf8afe720bf97f20b3598"
+    --git-access-token $(az keyvault secret show --vault-name $AKV_NAME --name $ACR_NAME-git-pat --query value -o tsv)
 
 
 # az functionapp create --resource-group $rg --consumption-plan-location $loc --name aciplaygroundfa --storage-account $st
@@ -53,7 +53,7 @@ az keyvault secret set \
 az keyvault secret set \
     --vault-name $AKV_NAME \
     --name $ACR_NAME-git-pat \
-    --value ac0f6b897102890f96ecf8afe720bf97f20b3598
+    --value [gh-obtained-pat]
 
 az container create \
     --resource-group $RES_GROUP \
