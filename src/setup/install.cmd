@@ -14,8 +14,8 @@
  :logtimestamp
  REM ***** Setup LogFile with timestamp *****
  md "%PathToOLEDBSetup%\log"
- set startuptasklog="%PathToOLEDBSetup%log\startuptasklog-%timestamp%.txt"
- set oledbsetuplog="%PathToOLEDBSetup%log\OLEDBSetupLog-%timestamp%.txt"
+ set startuptasklog="%PathToOLEDBSetup%log\startuptasklog.txt"
+ set oledbsetuplog="%PathToOLEDBSetup%log\OLEDBSetupLog.txt"
  echo %log% >> %startuptasklog%
  echo ComputeEmulatorRunning set to: %ComputeEmulatorRunning% >> %startuptasklog%
  echo Logfile generated at: %startuptasklog% >> %startuptasklog%
@@ -30,7 +30,8 @@
 /extract:%PathToOLEDBSetup%\log /passive /quiet /log:%oledbsetuplog%  "CloudService Startup Task" >> %startuptasklog% 2>>&1
  if %ERRORLEVEL%== 0 goto end
      echo OLEDB x64 installer exited with code %ERRORLEVEL% >> %startuptasklog%    
-
+     type %oledbsetuplog%
+     type %startuptasklog%
  :end
  echo install.cmd completed: %date:~-4,4%%date:~-10,2%%date:~-7,2%-%timehour: =0%%time:~3,2% >> %startuptasklog%
 

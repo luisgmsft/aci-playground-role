@@ -1,13 +1,16 @@
 # escape=`
-FROM microsoft/dotnet-framework-build:4.7.1-windowsservercore-ltsc2016 AS builder
-WORKDIR C:\src\Legacy.CloudService
+FROM microsoft/dotnet-framework:sdk AS builder
+WORKDIR C:\Legacy.CloudService
 COPY . .
-RUN msbuild src\Legacy.CloudService.sln /p:OutputPath=c:\out
+RUN msbuild Legacy.CloudService.sln /p:OutputPath=c:\out
 
 # app image
-FROM microsoft/dotnet-framework:4.6.2-windowsservercore-10.0.14393.1884
-ADD .\setup C:\setup
-RUN C:\setup\install.cmd
+FROM microsoft/dotnet-framework:4.6.2-runtime-windowsservercore-ltsc2016
+ADD setup C:\setup
+#RUN C:\setup\install.cmd
+#RUN C:\setup\AccessDatabaseEngine_X64.exe /passive
+# https://stackoverflow.com/questions/50347388/docker-for-windows-ms-access-database-jet-oledb-4-0
+RUN C:\setup\Jet40SP8_9xNT.exe /Q
 WORKDIR C:\legacy-cloudservice
 COPY --from=builder C:\out .
 CMD Console.Worker.Role.exe
