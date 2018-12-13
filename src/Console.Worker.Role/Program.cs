@@ -1,4 +1,6 @@
-﻿using System.Configuration;
+﻿using Common.Models;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Data.OleDb;
 
 namespace Console.Worker.Role
@@ -10,6 +12,8 @@ namespace Console.Worker.Role
             var argumentIndex = int.Parse(ConfigurationManager.AppSettings["ArgumentIndex"]);
             var localDataPath = ConfigurationManager.AppSettings["DataModelPath"];
             string identifier = null;
+
+            var foos = new List<Foo>();
 
             if (args.Length == 0 || string.IsNullOrWhiteSpace(args?[argumentIndex]?? ""))
             {
@@ -36,6 +40,8 @@ namespace Console.Worker.Role
                             .Replace("'", " ");
                         System.Console.WriteLine(
                             $"Country: {c}");
+
+                        foos.Add(new Foo { Bar = c });
                     }
                 }
             }
