@@ -47,7 +47,6 @@ namespace Console.Worker.Role
             }
 
             System.Console.WriteLine($"Run identifier {identifier}.");
-            System.Console.ReadLine();
         }
     }
 }
